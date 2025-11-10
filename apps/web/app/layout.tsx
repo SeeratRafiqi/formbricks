@@ -1,11 +1,11 @@
-import { SentryProvider } from "@/app/sentry/SentryProvider";
-import { IS_PRODUCTION, SENTRY_DSN, SENTRY_ENVIRONMENT, SENTRY_RELEASE } from "@/lib/constants";
-import { TolgeeNextProvider } from "@/tolgee/client";
-import { getLocale } from "@/tolgee/language";
-import { getTolgee } from "@/tolgee/server";
-import { TolgeeStaticData } from "@tolgee/react";
+// import { TolgeeNextProvider } from "@/tolgee/client";
+// import { getLocale } from "@/tolgee/language";
+// import { getTolgee } from "@/tolgee/server";
+// import { TolgeeStaticData } from "@tolgee/react";
 import { Metadata } from "next";
 import React from "react";
+import { SentryProvider } from "@/app/sentry/SentryProvider";
+import { IS_PRODUCTION, SENTRY_DSN, SENTRY_ENVIRONMENT, SENTRY_RELEASE } from "@/lib/constants";
 import "../modules/ui/globals.css";
 
 export const metadata: Metadata = {
@@ -17,21 +17,19 @@ export const metadata: Metadata = {
 };
 
 const RootLayout = async ({ children }: { children: React.ReactNode }) => {
-  const locale = await getLocale();
-  const tolgee = await getTolgee();
-  const staticData = await tolgee.loadRequired();
+  // const locale = await getLocale();
+  // const tolgee = await getTolgee();
+  // const staticData = await tolgee.loadRequired();
 
   return (
-    <html lang={locale} translate="no">
-      <body className="flex h-dvh flex-col bg-[var(--kolaxus-bg)] transition-all ease-in-out text-gray-900">
+    <html translate="no">
+      <body className="flex h-dvh flex-col bg-[var(--kolaxus-bg)] text-gray-900 transition-all ease-in-out">
         <SentryProvider
           sentryDsn={SENTRY_DSN}
           sentryRelease={SENTRY_RELEASE}
           sentryEnvironment={SENTRY_ENVIRONMENT}
           isEnabled={IS_PRODUCTION}>
-          <TolgeeNextProvider language={locale} staticData={staticData as unknown as TolgeeStaticData}>
-            <main className="flex-1">{children}</main>
-          </TolgeeNextProvider>
+          <main className="flex-1">{children}</main>
         </SentryProvider>
       </body>
     </html>
