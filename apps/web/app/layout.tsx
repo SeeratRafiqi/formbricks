@@ -23,7 +23,7 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
 
   return (
     <html lang={locale} translate="no">
-      <body className="flex h-dvh flex-col bg-[#FFF8F0] transition-all ease-in-out">
+      <body className="flex h-dvh flex-col bg-[var(--kolaxus-bg)] transition-all ease-in-out text-gray-900">
         <SentryProvider
           sentryDsn={SENTRY_DSN}
           sentryRelease={SENTRY_RELEASE}
