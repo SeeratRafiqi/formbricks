@@ -2,12 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ---- Kolaxus / Brand variables (aliases for old Formbricks tokens) ---- */
 :root {
-  /* Brand Colors — Kolaxus Red */
-  --formbricks-brand: #d62828;
+  /* Brand Colors — Kolaxus */
+  --kolaxus-primary: #1F7AD9;         /* Kolaxus primary (blue example) */
+  --kolaxus-accent: #F9AD42;          /* accent */
+  --kolaxus-danger: #b00020;
+
+  /* Backwards-compatible formbricks tokens (kept for components) */
+  --formbricks-brand: var(--kolaxus-primary);
 
   /* Background / Fill Colors */
-  --formbricks-fill-primary: #f9f6f2; /* Off-white / Cream */
+  --kolaxus-bg: #F7FBFF;              /* Page background (change this) */
+  --formbricks-fill-primary: var(--kolaxus-bg);
   --formbricks-fill-secondary: #ffffff;
   --formbricks-fill-disabled: #e8e6e3;
 
@@ -25,68 +32,46 @@
   --formbricks-focus: #e63946;
   --formbricks-error: #b00020;
 
-  /* Page Background */
-  background-color: var(--formbricks-fill-primary);
+  /* UI tokens */
+  --kolaxus-radius-sm: 8px;
+  --kolaxus-radius-md: 12px;
+  --kolaxus-radius-lg: 16px;
+
+  /* Page defaults */
+  background-color: var(--kolaxus-bg);
   color: var(--formbricks-label-primary);
 }
 
+/* Dark mode variants (aliases) */
 .dark {
-  /* Brand Colors — Dark Mode */
-  --formbricks-brand: #ff4d4d;
-
-  /* Fill Colors */
-  --formbricks-fill-primary: #1e1e1e;
-  --formbricks-fill-secondary: #2a2a2a;
-  --formbricks-fill-disabled: #3a3a3a;
-
-  /* Label Colors */
+  --kolaxus-primary: #4DA3FF;
+  --kolaxus-bg: #141419;
+  --formbricks-fill-primary: var(--kolaxus-bg);
+  --formbricks-fill-secondary: #1f1f22;
   --formbricks-label-primary: #f5f5f5;
-  --formbricks-label-secondary: #dcdcdc;
-  --formbricks-label-disabled: #9e9e9e;
-
-  /* Border Colors */
   --formbricks-border-primary: #333;
-  --formbricks-border-secondary: #555;
-  --formbricks-border-disabled: #444;
-
-  /* Functional Colors */
-  --formbricks-focus: #ff6b6b;
-  --formbricks-error: #ff4d4d;
-
-  background-color: var(--formbricks-fill-primary);
+  background-color: var(--kolaxus-bg);
   color: var(--formbricks-label-primary);
 }
 
+/* Small global base fixes for Next.js app router */
 @layer base {
   [data-nextjs-scroll-focus-boundary] {
     display: contents;
   }
 }
 
-/* Scrollbar Styling */
+/* Scrollbar Styling (gentle) */
 *::-webkit-scrollbar {
   width: 10px;
 }
-
 *::-webkit-scrollbar-track {
   background: #f0edea;
 }
-
 *::-webkit-scrollbar-thumb {
   background-color: #d6cfc7;
+  border-radius: 8px;
   border: 3px solid #d6cfc7;
-}
-
-.filter-scrollbar::-webkit-scrollbar {
-  height: 10px;
-}
-
-.filter-scrollbar::-webkit-scrollbar-thumb {
-  border-radius: 8px;
-}
-
-.filter-scrollbar::-webkit-scrollbar-track {
-  border-radius: 8px;
 }
 
 /* Input Focus & Range Customization */
@@ -95,13 +80,12 @@ input:focus {
   --tw-ring-offset-color: none;
   box-shadow: none;
 }
-
 input[type="range"]::-webkit-slider-thumb {
   height: 20px;
   width: 20px;
   border-radius: 50%;
   -webkit-appearance: none;
-  background: var(--formbricks-brand);
+  background: var(--kolaxus-primary);
 }
 
 /* Hide clear buttons for search inputs */
@@ -111,23 +95,42 @@ input[type="search"]::-ms-reveal {
   display: none;
 }
 
-/* Dropdown hover styling */
+/* Dropdown hover styling (keeps behavior but uses Kolaxus colors) */
 .surveyFilterDropdown[data-state="open"],
 .surveyFilterDropdown:hover * {
-  background-color: var(--formbricks-brand);
+  background-color: var(--kolaxus-primary);
   color: #fff;
+}
+
+/* Utility classes & small visual tweaks (rounded, shadows, buttons) */
+@layer components {
+  .card {
+    border-radius: var(--kolaxus-radius-md);
+    background: var(--formbricks-fill-secondary);
+    box-shadow: 0 10px 30px rgba(12, 20, 30, 0.06);
+    border: 1px solid var(--formbricks-border-primary);
+  }
+
+  .btn-kolaxus {
+    @apply inline-flex items-center justify-center gap-2 font-medium rounded-full px-4 py-2;
+    background-color: var(--kolaxus-primary);
+    color: white;
+    transition: transform .12s ease, box-shadow .12s ease, opacity .12s ease;
+  }
+  .btn-kolaxus:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(31,122,217,0.14);
+  }
+
+  .radius-kolaxus {
+    border-radius: var(--kolaxus-radius-lg);
+  }
 }
 
 /* Hide scrollbar utility */
 @layer utilities {
   @layer responsive {
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
-
-    .no-scrollbar {
-      -ms-overflow-style: none; /* IE and Edge */
-      scrollbar-width: none; /* Firefox */
-    }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   }
 }
